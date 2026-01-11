@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVCT 非暴力沟通人格测试</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 管理员密码验证模态框 -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <h3>管理员验证</h3>
+            <p>请输入管理员密码访问数据分析面板</p>
+            <input type="password" id="adminPassword" placeholder="输入密码">
+            <div class="modal-buttons">
+                <button id="submitAdminPassword">进入面板</button>
+                <button id="cancelAdmin">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主应用容器 -->
+    <div id="app">
+        <!-- Logo区域 -->
+        <header class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">💬</div>
+                <div class="logo-text">
+                    <h1>NVCT</h1>
+                    <p>非暴力沟通人格测试</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main>
+            <!-- 首页 -->
+            <section id="welcomePage" class="page active">
+                <div class="page-content">
+                    <div class="welcome-card">
+                        <h2>亲爱的探索者：</h2>
+                        <div class="welcome-text">
+                            <p>欢迎来到你内心的沟通花园。</p>
+                            <p>在这片由观察、感受、需要和请求构成的土壤中，</p>
+                            <p>你独特的沟通风格正在悄然绽放。</p>
+                            <br>
+                            <p>这份报告不是标签，而是地图——</p>
+                            <p>一张帮助你理解自己、连接他人、</p>
+                            <p>在关系世界中更自由行走的心灵地图。</p>
+                            <br>
+                            <p>请带着温柔的好奇心，</p>
+                            <p>开始这段自我发现的旅程吧。</p>
+                        </div>
+                        <button id="startTest" class="btn-primary">开始测试</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 用户信息收集页 -->
+            <section id="userInfoPage" class="page">
+                <div class="page-content">
+                    <div class="info-card">
+                        <h2>让我们先了解您</h2>
+                        <p class="subtitle">这些信息仅用于个性化分析，我们将严格保护您的隐私</p>
+                        
+                        <div class="info-form">
+                            <div class="form-group">
+                                <label>年龄区间</label>
+                                <div class="options-grid">
+                                    <button class="option-btn" data-value="18岁以下">18岁以下</button>
+                                    <button class="option-btn" data-value="18-25">18-25</button>
+                                    <button class="option-btn" data-value="26-35">26-35</button>
+                                    <button class="option-btn" data-value="36-45">36-45</button>
+                                    <button class="option-btn" data-value="46-55">46-55</button>
+                                    <button class="option-btn" data-value="56岁以上">56岁以上</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>性别</label>
+                                <div class="options-grid">
+                                    <button class="option-btn" data-value="男">男</button>
+                                    <button class="option-btn" data-value="女">女</button>
+                                    <button class="option-btn" data-value="其他">其他</button>
+                                    <button class="option-btn" data-value="不愿透露">不愿透露</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>职业</label>
+                                <div class="options-grid">
+                                    <button class="option-btn" data-value="学生">学生</button>
+                                    <button class="option-btn" data-value="教育">教育</button>
+                                    <button class="option-btn" data-value="IT/科技">IT/科技</button>
+                                    <button class="option-btn" data-value="医疗">医疗</button>
+                                    <button class="option-btn" data-value="金融">金融</button>
+                                    <button class="option-btn" data-value="销售/市场">销售/市场</button>
+                                    <button class="option-btn" data-value="自由职业">自由职业</button>
+                                    <button class="option-btn" data-value="其他">其他</button>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button id="backToWelcome" class="btn-secondary">返回</button>
+                                <button id="submitUserInfo" class="btn-primary" disabled>开始测试</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 测试页面 -->
+            <section id="testPage" class="page">
+                <div class="page-content">
+                    <div class="test-card">
+                        <!-- 进度条 -->
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-question">1</span>/<span class="total-questions">60</span>
+                                <span class="progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                                <div class="progress-dot"></div>
+                            </div>
+                        </div>
+
+                        <!-- 题目显示 -->
+                        <div class="question-container">
+                            <div class="question-category"></div>
+                            <h2 class="question-text"></h2>
+                            <div class="question-options"></div>
+                        </div>
+
+                        <!-- 导航按钮 -->
+                        <div class="test-navigation">
+                            <button id="prevQuestion" class="btn-secondary" disabled>上一题</button>
+                            <button id="nextQuestion" class="btn-primary">下一题</button>
+                            <button id="submitTest" class="btn-submit" style="display: none;">查看结果</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 结果页面 -->
+            <section id="resultPage" class="page">
+                <div class="page-content">
+                    <div class="result-container">
+                        <!-- 左侧页：人格核心信息 -->
+                        <div class="result-left">
+                            <div class="personality-header">
+                                <h1 class="personality-name"></h1>
+                                <div class="personality-badge"></div>
+                            </div>
+                            
+                            <div class="personality-visual">
+                                <div class="personality-icons"></div>
+                                <div class="core-features">
+                                    <h3>核心特征</h3>
+                                    <p class="core-description"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="personality-energy">
+                                <h3>人格能量分布</h3>
+                                <div class="energy-bars"></div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧页：详细分析内容 -->
+                        <div class="result-right">
+                            <div class="result-navigation">
+                                <button class="nav-btn active" data-section="strengths">优势分析</button>
+                                <button class="nav-btn" data-section="challenges">潜在挑战</button>
+                                <button class="nav-btn" data-section="friendship">交友建议</button>
+                                <button class="nav-btn" data-section="relationship">婚恋指南</button>
+                                <button class="nav-btn" data-section="strategies">提升策略</button>
+                                <button class="nav-btn" data-section="notes">注意事项</button>
+                            </div>
+                            
+                            <div class="analysis-content">
+                                <!-- 内容将通过JS动态填充 -->
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button id="restartTest" class="btn-secondary">重新测试</button>
+                                <button id="shareResult" class="btn-primary">分享结果</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 管理员面板 -->
+            <section id="adminPage" class="page">
+                <div class="page-content">
+                    <div class="admin-container">
+                        <div class="admin-header">
+                            <h2>NVCT 数据分析面板</h2>
+                            <div class="admin-controls">
+                                <select id="timeFilter">
+                                    <option value="today">今日</option>
+                                    <option value="week">本周</option>
+                                    <option value="month">本月</option>
+                                    <option value="all">全部数据</option>
+                                </select>
+                                <button id="exportData" class="btn-secondary">导出CSV</button>
+                                <button id="backToTest" class="btn-primary">返回测试</button>
+                            </div>
+                        </div>
+
+                        <!-- 实时数据概览 -->
+                        <div class="stats-overview">
+                            <div class="stat-card">
+                                <h3>当前在线</h3>
+                                <div class="stat-value" id="onlineCount">0</div>
+                                <div class="stat-desc">最近5分钟活动</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>今日测试</h3>
+                                <div class="stat-value" id="todayCount">0</div>
+                                <div class="stat-desc">测试总数</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>本月测试</h3>
+                                <div class="stat-value" id="monthCount">0</div>
+                                <div class="stat-desc">测试总数</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>平均用时</h3>
+                                <div class="stat-value" id="avgTime">0</div>
+                                <div class="stat-desc">分钟</div>
+                            </div>
+                        </div>
+
+                        <!-- 最受欢迎人格 -->
+                        <div class="top-personalities">
+                            <h3>最受欢迎人格类型 TOP 3</h3>
+                            <div class="top-list" id="topPersonalities">
+                                <!-- 通过JS动态填充 -->
+                            </div>
+                        </div>
+
+                        <!-- 图表区域 -->
+                        <div class="charts-container">
+                            <div class="chart-section">
+                                <h3>人格类型分布</h3>
+                                <canvas id="personalityChart"></canvas>
+                            </div>
+                            <div class="chart-section">
+                                <h3>用户年龄分布</h3>
+                                <canvas id="ageChart"></canvas>
+                            </div>
+                            <div class="chart-section">
+                                <h3>用户性别分布</h3>
+                                <canvas id="genderChart"></canvas>
+                            </div>
+                            <div class="chart-section">
+                                <h3>用户职业分布</h3>
+                                <canvas id="occupationChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 详细数据表格 -->
+                        <div class="data-table">
+                            <h3>详细测试记录</h3>
+                            <div class="table-container">
+                                <table id="recordsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>时间</th>
+                                            <th>人格类型</th>
+                                            <th>年龄</th>
+                                            <th>性别</th>
+                                            <th>职业</th>
+                                            <th>用时(秒)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- 通过JS动态填充 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 结语页面 -->
+            <section id="endPage" class="page">
+                <div class="page-content">
+                    <div class="end-card">
+                        <h2>🌱 让理解生根，让成长发生</h2>
+                        <div class="end-text">
+                            <p>感谢你投入时间与真诚完成这次探索。</p>
+                            <p>真正的沟通智慧不在报告中，</p>
+                            <p>而在你每一天的真实相遇中。</p>
+                            <br>
+                            <p>愿你带着这份自我认知，</p>
+                            <p>在关系中更从容、更自由、更完整。</p>
+                        </div>
+                        <div class="signature">
+                            <p>—— NVCT非暴力沟通人格测试 ——</p>
+                        </div>
+                        <div class="end-actions">
+                            <button id="viewAdmin" class="btn-secondary">查看分析面板</button>
+                            <button id="restartFromEnd" class="btn-primary">重新测试</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页面指示器 -->
+        <div class="page-indicator">
+            <div class="indicator-dots">
+                <span class="dot active" data-page="welcome"></span>
+                <span class="dot" data-page="info"></span>
+                <span class="dot" data-page="test"></span>
+                <span class="dot" data-page="result"></span>
+                <span class="dot" data-page="end"></span>
+            </div>
+        </div>
+
+        <!-- 提示框 -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- JavaScript文件 -->
+    <script src="questions.js"></script>
+    <script src="personalities.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
